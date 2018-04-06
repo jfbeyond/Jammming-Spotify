@@ -13,11 +13,14 @@ const Spotify =  {
       return spotifyToken;
 
     } else if (window.location.href.match(/access_token=([^&]*)/) != null) {
-			spotifyToken = window.location.href.match(/access_token=([^&]*)/);
-			tokenExpiresIn = window.location.href.match(/expires_in=([^&]*)/);
+			spotifyToken = window.location.href.match(/access_token=([^&]*)/)[1];
+			tokenExpiresIn = window.location.href.match(/expires_in=([^&]*)/)[1];
       window.setTimeout(() => spotifyToken = '', tokenExpiresIn * 1000);
       window.history.pushState('Access Token', null, '/');
-      console.log(spotifyToken);
+
+      console.log(`The access token is ${spotifyToken}`);
+      return spotifyToken;
+
     } else {
       window.location = `http://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`;
 
@@ -30,8 +33,8 @@ const Spotify =  {
 
 
       }
-      console.log(spotifyToken);
-       return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`,
+      //console.log(spotifyToken);
+       return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}&type=track&${spotifyToken}`,
            { headers: { Authorization: `Bearer ${spotifyToken}` } }
        ).then(response => { return response.json(); }
        ).then(jsonResponse => {
@@ -57,7 +60,7 @@ const Spotify =  {
    savePlaylist(name, trackURIs) {
      if(spotifyToken === undefined) {
        this.getAccessToken();
-       console.log(spotifyToken);
+      // console.log(spotifyToken);
      }
 
 
