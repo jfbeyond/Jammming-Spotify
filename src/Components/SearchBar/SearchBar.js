@@ -7,7 +7,7 @@ class SearchBar extends Component {
     this.search = this.search.bind(this);
     this.handleTermChange = this.handleTermChange.bind(this);
     this.handleEnterDown = this.handleEnterDown.bind(this);
-    this.inputTermIn = this.inputTermIn.bind(this);
+    //this.inputTermIn = this.inputTermIn.bind(this);
   }
 
   search() {
@@ -21,14 +21,14 @@ class SearchBar extends Component {
   //I created these two functions to handle the pressing of 'ENTER'
   //Below in the input element I added a new attribute onKeyDown
   handleEnterDown(event) {
-    if (event.keyCode == 13) {
-      return this.handleTermChange();
+    if (event.keyCode === 13) {
+      this.handleTermChange(event);
     }
   }
 
-  inputTermIn(event) {
+  /*inputTermIn(event) {
     this.setState({term: event.target.value});
-  }
+  }*/
 
 
 
@@ -39,10 +39,6 @@ class SearchBar extends Component {
         onChange={this.handleTermChange} onKeyDown={this.handleEnterDown}
         />
         <a id='searchBtn' onClick={this.search}>SEARCH</a>
-           
-
-
-
       </div>
     )
   }
